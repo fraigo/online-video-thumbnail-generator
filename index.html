@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Online Video Thumbnail Generator</title>
+    <style>
+    canvas{
+        border: 1px solid #ddd;
+    }
+    </style>
+</head>
+<body>
+  <h3>Online Video Thumbnail Generator</h3>
+  <input type="file" id="videofile" accept=".mp4" onchange="loadVideo()">
+  <br>
+  <video id="video" controls width="640" height="480">
+    <source src="" type="video/mp4"></source>
+  </video>
+  <br>
+  <button id="snap" onclick="snapPicture()" disabled>Snap Photo</button>
+  Image width: <input type=number size=5 onchange="resize()" value=640 id="videow" disabled> px
+  <br>
+  <canvas id="canvas" width="640" height="480"></canvas>
+  
+  <!-- start the script ... within that declare variables as follows... -->
+  <script>
+  var video=document.querySelector('#video');
+  var canvas=document.querySelector('#canvas');
+  var file=document.querySelector('#videofile');
+  var videow=document.querySelector('#videow');
+  var snap=document.querySelector('#snap');
+  var context=canvas.getContext('2d');
+  var w,h,ratio;
+
+  //add loadedmetadata which will helps to identify video attributes
+
+  video.addEventListener('loadedmetadata', function() {
+    videow.value = video.videoWidth;
+    resize();
+  },false);
+
+  function resize(){
+    ratio = video.videoWidth/video.videoHeight;
+    w = videow.value;
+    h = parseInt(w/ratio,10);
+    canvas.width = w;
+    canvas.height = h;
+  }
+
+  function snapPicture() {
+    context.fillRect(0,0,w,h);
+    context.drawImage(video,0,0,w,h);
+  }
+
+  function selectVideo(){
+    file.click();
+  }
+
+  function loadVideo(){
+    var fileInput = file.files[0];
+    if (fileInput){
+        console.log(fileInput);
+        var reader  = new FileReader();
+        reader.addEventListener("load", function () {
+            video.src = reader.result;
+        }, false);
+        reader.readAsDataURL(fileInput);
+        videow.disabled = false;
+        snap.disabled = false;
+    }
+  }
+  </script>
+
+</body>
+</html>
