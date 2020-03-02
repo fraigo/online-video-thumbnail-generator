@@ -13,14 +13,16 @@
 </head>
 <body>
   <h3>Online Video Thumbnail Generator</h3>
-  <input type="file" id="videofile" accept=".mp4" onchange="loadVideo()">
+  Video from file <input type="file" id="videofile" accept=".mp4" onchange="loadVideoFile()">
   <br>
-  <video id="video" controls width="640" height="480">
-    <source src="" type="video/mp4"></source>
+  Video from URL <input id="videourl" type="text" value="" placeholder="https://" > <input type="button" onclick="loadVideoURL(document.getElementById('videourl').value)" value="Load video">
+  <br>
+  <video id="video" controls width="640">
+    <source src="blank.mp4" type="video/mp4">
   </video>
   <br>
   <button id="snap" onclick="snapPicture()" disabled>Snap Photo</button>
-  Image width: <input type=number size=5 onchange="resize()" value=640 id="videow" disabled> px
+  Image width: <input type=number onchange="resize()" value=640 id="videow" disabled> px
   <br>
   <canvas id="canvas" width="640" height="480"></canvas>
   
