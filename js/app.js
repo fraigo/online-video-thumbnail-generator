@@ -99,3 +99,22 @@ function savePicture(){
   link.setAttribute("download","video-capture-"+rnd+".png");
   link.click();
 }
+
+
+
+window.addEventListener("load",function(){
+  var buttons = document.querySelectorAll('button');
+  for (let index = 0; index < buttons.length; index++) {
+    var element = buttons[index];
+    element.addEventListener('click', function(){
+      console.log('click', this);
+      gtag("event", "view_item", {
+        items: [{
+          id: this.id,
+          name: this.innerText,
+          category: "click"
+        }]
+      });
+    })
+  }
+})
