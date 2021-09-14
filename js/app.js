@@ -108,7 +108,7 @@ window.addEventListener("load",function(){
     var element = buttons[index];
     element.addEventListener('click', function(){
       console.log('click', this);
-      gtag("event", "view_item", {
+      gtag("event", "button_"+this.innerText.replace(' ','_'), {
         items: [{
           id: this.id,
           name: this.innerText,
