@@ -125,14 +125,18 @@ window.addEventListener("load",function(){
   for (let index = 0; index < buttons.length; index++) {
     var element = buttons[index];
     element.addEventListener('click', function(){
-      if (this.getAttribute('ga')=='0'){
-        return;
+      var name = this.innerText.trim();
+      var category = "button";
+      if (this.getAttribute('category')=='controls'){
+        name = 'Video Controls';
+        category = "controls";
       }
-      gtag("event", "button_"+this.innerText.replace(' ','_'), {
+      var id = name.toLowerCase().replace(' ','_');
+      gtag("event", "view_item", {
         items: [{
-          id: this.id,
-          name: this.innerText,
-          category: "click"
+          item_id: id,
+          item_name: name,
+          item_category: category
         }]
       });
     })

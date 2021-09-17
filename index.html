@@ -120,13 +120,13 @@
       </div>
       <div>Select the frame to capture using video controls.</div>
       <div id="videoControls" class="video-controls" style="display:none">
-        <button ga="0" onclick="video.currentTime=0;timeUpdate()">⏮</button>
-        <button ga="0" onclick="video.currentTime=Math.max(0,video.currentTime-5);timeUpdate()">⬅️ 5s</button>
-        <button ga="0" onclick="video.currentTime=Math.max(0,video.currentTime-1);timeUpdate()">⬅️ 1s</button>
-        <button ga="0" onclick="video.paused?video.play():video.pause()">⏯</button>
-        <button ga="0" onclick="video.currentTime=Math.min(video.duration,video.currentTime+1);timeUpdate()">⏩ 1s</button>
-        <button ga="0" onclick="video.currentTime=Math.min(video.duration,video.currentTime+5);timeUpdate()">⏩ 5s</button>
-        <button ga="0" onclick="video.currentTime=video.duration;timeUpdate()">⏭</button>
+        <button category="controls" onclick="video.currentTime=0;timeUpdate()">⏮</button>
+        <button category="controls" onclick="video.currentTime=Math.max(0,video.currentTime-5);timeUpdate()">⬅️ 5s</button>
+        <button category="controls" onclick="video.currentTime=Math.max(0,video.currentTime-1);timeUpdate()">⬅️ 1s</button>
+        <button category="controls" onclick="video.paused?video.play():video.pause()">⏯</button>
+        <button category="controls" onclick="video.currentTime=Math.min(video.duration,video.currentTime+1);timeUpdate()">⏩ 1s</button>
+        <button category="controls" onclick="video.currentTime=Math.min(video.duration,video.currentTime+5);timeUpdate()">⏩ 5s</button>
+        <button category="controls" onclick="video.currentTime=video.duration;timeUpdate()">⏭</button>
       </div>
     </div>
     <div class="mdc-card mdc-card--outlined select-source">
@@ -161,7 +161,7 @@
   </main>
  
   <!-- start the script ... within that declare variables as follows... -->
-  <script src="js/app.js?20210917"></script>
+  <script src="js/app.js?20210918"></script>
 
 </body>
 </html>
