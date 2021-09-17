@@ -1,6 +1,7 @@
 var video=document.querySelector('#video');
 var canvas=document.querySelector('#canvas');
 var file=document.querySelector('#videofile');
+var videoControls=document.querySelector('#videoControls');
 var videow=document.querySelector('#videow');
 var snap=document.querySelector('#snap');
 var save=document.querySelector('#save');
@@ -11,13 +12,15 @@ var w,h,ratio;
 
 //add loadedmetadata which will helps to identify video attributes
 
-video.addEventListener('timeupdate', function() {
+function timeUpdate(){
   videoInfo.innerHTML=[
     "Video size: "+ video.videoWidth + "x" + video.videoHeight,
     "Video length: "+ (Math.round(video.duration*10)/10)+"sec",
     "Playback position: "+ (Math.round(video.currentTime*10)/10)+"sec",
   ].join('<br>');
-})
+}
+
+video.addEventListener('timeupdate', timeUpdate)
 
 video.addEventListener('loadedmetadata', function() {
   console.log("Metadata loaded");
@@ -26,9 +29,6 @@ video.addEventListener('loadedmetadata', function() {
     "Video size: "+ video.videoWidth + "x" + video.videoHeight,
     "Video length: "+ (Math.round(video.duration*10)/10)+"sec",
   ].join('<br>');
-  if (video.objectURL){
-    URL.revokeObjectURL(video.src);
-  }
   video.objectURL=false;
   video.play();
   video.pause();
@@ -73,12 +73,30 @@ function loadVideoFile(){
         }, false);
       reader.readAsDataURL(fileInput);
       */
+      if (video.objectURL && video.src){
+        URL.revokeObjectURL(video.src);
+      }    
       video.pleload="metadata";
       video.objectURL=true;
       video.src = URL.createObjectURL(fileInput);
       videow.removeAttribute("readonly");
       snap.disabled = false;
       save.disabled = false;
+      videoControls.style.display='';
+  }
+}
+
+function loadVideoFromFile(file){
+  let reader = new  FileReader();
+  reader.readAsArrayBuffer(file);
+  reader.onload = function(e) {
+    // The file reader gives us an ArrayBuffer:
+    let buffer = e.target.result;
+    // We have to convert the buffer to a blob:
+    let videoBlob = new Blob([new Uint8Array(buffer)], { type: 'video/mp4' });
+    // The blob gives us a URL to the video file:
+    let url = window.URL.createObjectURL(videoBlob);
+    video.src = url;
   }
 }
 
@@ -107,7 +125,9 @@ window.addEventListener("load",function(){
   for (let index = 0; index < buttons.length; index++) {
     var element = buttons[index];
     element.addEventListener('click', function(){
-      console.log('click', this);
+      if (this.getAttribute('ga')=='0'){
+        return;
+      }
       gtag("event", "button_"+this.innerText.replace(' ','_'), {
         items: [{
           id: this.id,
