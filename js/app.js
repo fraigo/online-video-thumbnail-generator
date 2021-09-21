@@ -132,13 +132,7 @@ window.addEventListener("load",function(){
         category = "controls";
       }
       var id = name.toLowerCase().replace(' ','_');
-      gtag("event", "view_item", {
-        items: [{
-          item_id: id,
-          item_name: name,
-          item_category: category
-        }]
-      });
+      gtag("event", category + "-" + id , { });
     })
   }
 })
