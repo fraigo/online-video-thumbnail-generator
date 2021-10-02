@@ -26,6 +26,13 @@
     .select-source{
       padding: 12px;
     }
+    .instructions{
+        padding: 12px;
+    }
+    .toolbar-menu{
+        color: #fff !important;
+        padding-right: 12px;
+    }
     </style>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-RKLKKLZFDQ"></script>
@@ -62,7 +69,7 @@
         <span class="mdc-top-app-bar__title">Online Video Thumbnail Generator</span>
       </section>
       <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
-        <a target="_blank" href="https://forms.gle/AkvW2rRQsTfobxFE8" title="Feedback and feature requests">Feedback</a>
+        <a class="toolbar-menu" target="_blank" href="https://forms.gle/AkvW2rRQsTfobxFE8" title="Feedback and feature requests">Feedback</a>
         &nbsp;
         <button onclick="document.location='https://github.com/fraigo/online-video-thumbnail-generator'" class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Options">
         <img src="https://github.com/fluidicon.png" width="48"></button>
@@ -93,7 +100,7 @@
         </div>
         <label for="video_url">Video from URL</label>
       </div>
-      (Currently, youtube/vimeo video URLS are not supported, only URLs pointing to a video resource)
+      <div class="instructions mdc-form-field">(Currently, youtube/vimeo video URLS are not supported, only URLs pointing to a video resource)</div>
     </div>
     <div class="mdc-card mdc-card--outlined select-source">
       <div id="select-file" >
@@ -113,7 +120,7 @@
             <span class="mdc-button__label">Load video</span>
           </button>
         </div>
-        <div>
+        <div class="instructions mdc-form-field">
             For youtube URLs, you can use a service to convert Youtube videos to MP4 files (Google for "Youtube mp4").
             <ul><li>Use the provided "Download link" URL here, or </li><li>Download the file to your device and select "Video from file"</li></ul>
         </div>
