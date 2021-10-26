@@ -1,95 +1,117 @@
-var video=document.querySelector('#video');
-var canvas=document.querySelector('#canvas');
-var file=document.querySelector('#videofile');
-var videoControls=document.querySelector('#videoControls');
-var videow=document.querySelector('#videow');
-var snap=document.querySelector('#snap');
-var save=document.querySelector('#save');
-var videoInfo=document.querySelector('#videoInfo');
-var snapSize=document.querySelector('#snapsize');
-var context=canvas.getContext('2d');
-var w,h,ratio;
+var video = document.querySelector('#video');
+var canvas = document.querySelector('#canvas');
+var file = document.querySelector('#videofile');
+var videoControls = document.querySelector('#videoControls');
+var videow = document.querySelector('#videow');
+var snap = document.querySelector('#snap');
+var save = document.querySelector('#save');
+var videoInfo = document.querySelector('#videoInfo');
+var snapSize = document.querySelector('#snapsize');
+var context = canvas.getContext('2d');
+var w, h, ratio;
+var oneMinBtn = document.querySelector('.oneMin');
+var fiveMinBtn = document.querySelector('.fiveMin');
+var tenMinBtn = document.querySelector('.tenMin');
 
 //add loadedmetadata which will helps to identify video attributes
 
-function timeUpdate(){
-  videoInfo.innerHTML=[
-    "Video size: "+ video.videoWidth + "x" + video.videoHeight,
-    "Video length: "+ (Math.round(video.duration*10)/10)+"sec",
-    "Playback position: "+ (Math.round(video.currentTime*10)/10)+"sec",
+function timeUpdate() {
+  videoInfo.innerHTML = [
+    "Video size: " + video.videoWidth + "x" + video.videoHeight,
+    "Video length: " + (Math.round(video.duration * 10) / 10) + "sec",
+    "Playback position: " + (Math.round(video.currentTime * 10) / 10) + "sec",
   ].join('<br>');
 }
 
 video.addEventListener('timeupdate', timeUpdate)
 
-video.addEventListener('loadedmetadata', function() {
+video.addEventListener('loadedmetadata', function () {
   console.log("Metadata loaded");
   videow.value = video.videoWidth;
-  videoInfo.innerHTML=[
-    "Video size: "+ video.videoWidth + "x" + video.videoHeight,
-    "Video length: "+ (Math.round(video.duration*10)/10)+"sec",
+  videoInfo.innerHTML = [
+    "Video size: " + video.videoWidth + "x" + video.videoHeight,
+    "Video length: " + (Math.round(video.duration * 10) / 10) + "sec",
   ].join('<br>');
-  video.objectURL=false;
+  video.objectURL = false;
   video.play();
   video.pause();
   resize();
-},false);
+}, false);
 
-function resize(){
-  ratio = video.videoWidth/video.videoHeight;
+function oneMinVideoGo() {
+  video.currentTime = 60;
+  video.pause();
+  console.log(video.currentTime);
+}
+function fiveMinVideoGo() {
+  video.currentTime = 300;
+  video.pause();
+  console.log(video.currentTime);
+}
+function tenMinVideoGo() {
+  video.currentTime = 600;
+  video.pause();
+  console.log(video.currentTime);
+}
+oneMinBtn.addEventListener('click', oneMinVideoGo);
+fiveMinBtn.addEventListener('click', fiveMinVideoGo);
+tenMinBtn.addEventListener('click', tenMinVideoGo);
+
+function resize() {
+  ratio = video.videoWidth / video.videoHeight;
   w = videow.value;
-  h = parseInt(w/ratio,10);
+  h = parseInt(w / ratio, 10);
   canvas.width = w;
   canvas.height = h;
 }
 
 function snapPicture() {
-  context.fillRect(0,0,w,h);
-  context.drawImage(video,0,0,w,h);
-  snapSize.innerHTML=w+"x"+h;
+  context.fillRect(0, 0, w, h);
+  context.drawImage(video, 0, 0, w, h);
+  snapSize.innerHTML = w + "x" + h;
 }
 
-function selectVideo(){
+function selectVideo() {
   file.click();
 }
 
-function loadVideoFile(){
+function loadVideoFile() {
   var fileInput = file.files[0];
-  if (fileInput){
-      console.log("Loading...");
-      console.log(fileInput);
-      /*
-      var reader  = new FileReader();
-      reader.addEventListener("error", function () {
-        console.log("Error loading video data");
-      });
-      reader.addEventListener('progress',function(ev){
-        console.log("progress", ev.loaded, ev.total, Math.round(ev.loaded*100.0/ev.total));
-      });
-      reader.addEventListener("load", function () {
-          console.log("Video data loaded");
-          video.preload="metadata";
-          video.src = reader.result;
-        }, false);
-      reader.readAsDataURL(fileInput);
-      */
-      if (video.objectURL && video.src){
-        URL.revokeObjectURL(video.src);
-      }    
-      video.pleload="metadata";
-      video.objectURL=true;
-      video.src = URL.createObjectURL(fileInput);
-      videow.removeAttribute("readonly");
-      snap.disabled = false;
-      save.disabled = false;
-      videoControls.style.display='';
+  if (fileInput) {
+    console.log("Loading...");
+    console.log(fileInput);
+    /*
+    var reader  = new FileReader();
+    reader.addEventListener("error", function () {
+      console.log("Error loading video data");
+    });
+    reader.addEventListener('progress',function(ev){
+      console.log("progress", ev.loaded, ev.total, Math.round(ev.loaded*100.0/ev.total));
+    });
+    reader.addEventListener("load", function () {
+        console.log("Video data loaded");
+        video.preload="metadata";
+        video.src = reader.result;
+      }, false);
+    reader.readAsDataURL(fileInput);
+    */
+    if (video.objectURL && video.src) {
+      URL.revokeObjectURL(video.src);
+    }
+    video.pleload = "metadata";
+    video.objectURL = true;
+    video.src = URL.createObjectURL(fileInput);
+    videow.removeAttribute("readonly");
+    snap.disabled = false;
+    save.disabled = false;
+    videoControls.style.display = '';
   }
 }
 
-function loadVideoFromFile(file){
-  let reader = new  FileReader();
+function loadVideoFromFile(file) {
+  let reader = new FileReader();
   reader.readAsArrayBuffer(file);
-  reader.onload = function(e) {
+  reader.onload = function (e) {
     // The file reader gives us an ArrayBuffer:
     let buffer = e.target.result;
     // We have to convert the buffer to a blob:
@@ -100,39 +122,37 @@ function loadVideoFromFile(file){
   }
 }
 
-function loadVideoURL(url){
-  video.preload="metadata";
+function loadVideoURL(url) {
+  video.preload = "metadata";
   video.src = url;
   videow.removeAttribute("readonly");
   snap.disabled = false;
   save.disabled = false;
 }
 
-function savePicture(){
-  var dataURL = canvas.toDataURL("image/png");
+function savePicture() {
+  var dataURL = canvas.toDataURL();
   var link = document.getElementById("imagelink");
-  link.style.display='';
-  link.href=dataURL;
-  var rnd = Math.round((Math.random()*10000));
-  link.setAttribute("download","video-capture-"+rnd+".png");
+  link.style.display = '';
+  link.href = dataURL;
+  var rnd = Math.round((Math.random() * 10000));
+  link.setAttribute("download", "video-capture-" + rnd + ".png");
   link.click();
 }
 
-
-
-window.addEventListener("load",function(){
+window.addEventListener("load", function () {
   var buttons = document.querySelectorAll('button');
   for (let index = 0; index < buttons.length; index++) {
     var element = buttons[index];
-    element.addEventListener('click', function(){
+    element.addEventListener('click', function () {
       var name = this.innerText.trim();
       var category = "button";
-      if (this.getAttribute('category')=='controls'){
+      if (this.getAttribute('category') == 'controls') {
         name = 'Video Controls';
         category = "controls";
       }
-      var id = name.toLowerCase().replace(' ','_');
-      gtag("event", category + "-" + id , { });
+      var id = name.toLowerCase().replace(' ', '_');
+      gtag("event", category + "-" + id, {});
     })
   }
 })
