@@ -8,19 +8,24 @@ var save = document.querySelector('#save');
 var videoInfo = document.querySelector('#videoInfo');
 var snapSize = document.querySelector('#snapsize');
 var context = canvas.getContext('2d');
+var slider = document.querySelector('#slider');
 var w, h, ratio;
-var oneMinBtn = document.querySelector('.oneMin');
-var fiveMinBtn = document.querySelector('.fiveMin');
-var tenMinBtn = document.querySelector('.tenMin');
-
 //add loadedmetadata which will helps to identify video attributes
 
 function timeUpdate() {
+  slider.setAttribute('max', Math.ceil(video.duration))
+  slider.value=video.currentTime
+  videoInfo.style.display='block';
   videoInfo.innerHTML = [
     "Video size: " + video.videoWidth + "x" + video.videoHeight,
     "Video length: " + (Math.round(video.duration * 10) / 10) + "sec",
     "Playback position: " + (Math.round(video.currentTime * 10) / 10) + "sec",
   ].join('<br>');
+}
+
+function goToTime(video,time){
+  video.currentTime=Math.min(video.duration,Math.max(0,time));
+  timeUpdate()
 }
 
 video.addEventListener('timeupdate', timeUpdate)
@@ -37,36 +42,6 @@ video.addEventListener('loadedmetadata', function () {
   video.pause();
   resize();
 }, false);
-
-function oneMinVideoGo() {
-  video.currentTime = 60;
-  video.pause();
-}
-function fiveMinVideoGo() {
-  video.currentTime = 300;
-  video.pause();
-}
-function tenMinVideoGo() {
-  video.currentTime = 600;
-  video.pause();
-}
-oneMinBtn.addEventListener('click', oneMinVideoGo);
-fiveMinBtn.addEventListener('click', fiveMinVideoGo);
-tenMinBtn.addEventListener('click', tenMinVideoGo);
-
-
-// function jampVideoTo() {
-//   var allMinBtn = document.querySelectorAll('.snap_button');
-//   console.log(allMinBtn)
-//   for (let i = 0; i < allMinBtn.length; i++) {
-//     var minValue = parseInt(allMinBtn[i].innerHTML);
-//     console.log(minValue)
-//   }
-
-
-// }
-
-oneMinBtn.addEventListener('click', jampVideoTo);
 
 function resize() {
   ratio = video.videoWidth / video.videoHeight;

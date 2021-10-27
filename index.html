@@ -19,7 +19,7 @@
 
     canvas {
       border: 1px solid #ddd;
-      max-width: 90vw;
+      max-width: 45vw;
       max-height: 90vh;
       margin-bottom: 15px;
     }
@@ -33,13 +33,18 @@
     }
 
     video {
-      max-width: 90vw;
+      max-width: 45vw;
       max-height: 90vh;
       margin-bottom: 10px;
     }
 
     #videourl {
       max-width: 82%;
+    }
+
+    #videoInfo {
+      background-color: #eee;
+      display: none;
     }
 
     main>div {
@@ -62,11 +67,16 @@
     }
 
     .video_data {
-      max-width: 666px;
+      width: 50%;
     }
 
     .video_output {
       display: flex;
+      flex: 1;
+    }
+
+    .video_output > .mdc-card{
+      width: 100%;
     }
 
     .instructions ul {
@@ -107,6 +117,12 @@
       width: 20px;
     }
 
+    .mdc-card{
+      font-family: Roboto, sans-serif;
+      padding: 8px;
+      margin: 4px 0;
+    }
+
     .snap_button {
       background: #6200ee;
       border: 0;
@@ -128,6 +144,65 @@
     .snap_button:active {
       background: #c49dff;
     }
+
+    .canvas-container{
+      margin-top:16px;
+    }
+    #videoControls > div{
+      margin: 8px 0;
+    }
+    #videoControls button{
+      font-size: 2em;
+      border-radius: 5px;
+      background-color: #eee;
+      border: 1px solid #aaa;
+    }
+    #slider{
+      width: 100%;
+    }
+    #videoControls button > span{
+      font-size: 16px;
+    }
+
+    @media (max-width:1023px){
+      main{
+        flex-wrap: wrap;
+      }
+      .video_data{
+        width: 100%;
+      }
+      .video_output{
+        width: 100%;
+      }
+      video{
+        max-width: 90vw;
+      }
+      canvas{
+        max-width: 90vw;
+      }
+    }
+    @media (max-width:600px){
+      #videoControls button {
+        font-size: 20px;
+      }
+    }
+    @media (max-width:480px){
+      #snap{
+        width: 100px;
+      }
+      #videoControls > div{
+        display: flex;
+        justify-content: space-between;
+      }
+      #videoControls button {
+        font-size: 18px;
+        padding: 0 4px;
+      }
+      #videoControls button > span{
+        display: block;
+        text-align: center;
+      }
+    }
   </style>
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RKLKKLZFDQ"></script>
@@ -141,7 +216,8 @@
   <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <script>
-    function showInput(id) {
+    function showInput(id, opt) {
+      console.log(opt)
       document.getElementById('select-file').style.display = 'none';
       document.getElementById('select-url').style.display = 'none';
       document.getElementById(id).style.display = '';
@@ -177,31 +253,32 @@
   <main class="mdc-top-app-bar--fixed-adjust">
     <div class="video_data">
       <div class="mdc-card mdc-card--outlined">
-
-        <div class="mdc-form-field" onclick="showInput('select-url')">
-          <div class="mdc-radio mdc-radio--disabled">
-            <input class="mdc-radio__native-control" type="radio" onclick="showInput('select-url')" id="video_url"
-              name="video_source">
-            <div class="mdc-radio__background">
-              <div class="mdc-radio__outer-circle"></div>
-              <div class="mdc-radio__inner-circle"></div>
+        <div>
+          <div class="mdc-form-field" >
+            <div class="mdc-radio">
+              <input class="mdc-radio__native-control" type="radio" onclick="showInput('select-url', this)" id="video_url"
+                name="video_source">
+              <div class="mdc-radio__background">
+                <div class="mdc-radio__outer-circle"></div>
+                <div class="mdc-radio__inner-circle"></div>
+              </div>
+              <div class="mdc-radio__ripple"></div>
             </div>
-            <div class="mdc-radio__ripple"></div>
+            <label for="video_url">Video from URL</label>
           </div>
-          <label for="video_url">Video from URL</label>
-        </div>
-
-        <div class="mdc-form-field" onclick="showInput('select-file')">
-          <div class="mdc-radio mdc-radio--disabled">
-            <input class="mdc-radio__native-control" type="radio" onclick="showInput('select-file')" id="video_file"
-              checked name="video_source">
-            <div class="mdc-radio__background">
-              <div class="mdc-radio__outer-circle"></div>
-              <div class="mdc-radio__inner-circle"></div>
+  
+          <div class="mdc-form-field" >
+            <div class="mdc-radio">
+              <input class="mdc-radio__native-control" type="radio" onclick="showInput('select-file', this)" id="video_file"
+                checked name="video_source">
+              <div class="mdc-radio__background">
+                <div class="mdc-radio__outer-circle"></div>
+                <div class="mdc-radio__inner-circle"></div>
+              </div>
+              <div class="mdc-radio__ripple"></div>
             </div>
-            <div class="mdc-radio__ripple"></div>
+            <label for="video_file">Video from file</label>
           </div>
-          <label for="video_file">Video from file</label>
         </div>
 
         <div class="instructions mdc-form-field">(Currently, youtube/vimeo video URLS are not supported, only URLs
@@ -237,60 +314,33 @@
           </div>
         </div>
       </div>
-      <div class="buttons">
-        <h4>Go to:</h4>
-        <button class="snap_button oneMin">1 min</button>
-        <div class="space"></div>
-        <button class="snap_button fiveMin">5 min</button>
-        <div class="space"></div>
-        <button class="snap_button tenMin">10 min</button>
-      </div>
-
       <div class="mdc-card mdc-card--outlined select-source">
         <video id="video" controls width="640">
           <source src="blank.mp4" type="video/mp4">
         </video>
-        <div id="videoInfo">
+        <div id="videoInfo" class="mdc-card">
         </div>
         <div>Select the frame to capture using video controls.</div>
         <div id="videoControls" class="video-controls" style="display:none">
-          <button category="controls" onclick="video.currentTime=0;timeUpdate()">⏮</button>
-          <button category="controls" onclick="video.currentTime=Math.max(0,video.currentTime-5);timeUpdate()">⬅️
-            5s</button>
-          <button category="controls" onclick="video.currentTime=Math.max(0,video.currentTime-1);timeUpdate()">⬅️
-            1s</button>
-          <button category="controls" onclick="video.paused?video.play():video.pause()">⏯</button>
-          <button category="controls"
-            onclick="video.currentTime=Math.min(video.duration,video.currentTime+1);timeUpdate()">⏩ 1s</button>
-          <button category="controls"
-            onclick="video.currentTime=Math.min(video.duration,video.currentTime+5);timeUpdate()">⏩ 5s</button>
-          <button category="controls" onclick="video.currentTime=video.duration;timeUpdate()">⏭</button>
+          <div>
+              <input id="slider" oninput="goToTime(video,this.value)" onmouseover="this.title=this.value+'seg'" type="range" min="0" max="100" value="0" name="position">
+          </div>
+          <div>
+            <button category="controls" onclick="goToTime(video,0)">⏮ <span>&nbsp;</span></button>
+            <button category="controls" onclick="goToTime(video,video.currentTime-60)">⏪ <span>1m</span></button>
+            <button category="controls" onclick="goToTime(video,video.currentTime-5)">⏪ <span>5s</span></button>
+            <button category="controls" onclick="goToTime(video,video.currentTime-1)">⏪ <span>1s</span></button>
+            <button category="controls" onclick="video.paused?video.play():video.pause()">⏯ <span>&nbsp;</span></button>
+            <button category="controls" onclick="goToTime(video,video.currentTime+1)">⏩ <span>1s</span></button>
+            <button category="controls" onclick="goToTime(video,video.currentTime+5)">⏩ <span>5s</span></button>
+            <button category="controls" onclick="goToTime(video,video.currentTime+60)">⏩ <span>1m</span></button>
+            <button category="controls" onclick="goToTime(video,video.duration)">⏭ <span>&nbsp;</span></button>  
+          </div>
         </div>
       </div>
     </div>
 
     <div class="video_output">
-      <!-- <div class="mdc-card mdc-card--outlined select-source">
-        <video id="video" controls width="640">
-          <source src="blank.mp4" type="video/mp4">
-        </video>
-        <div id="videoInfo">
-        </div>
-        <div>Select the frame to capture using video controls.</div>
-        <div id="videoControls" class="video-controls" style="display:none">
-          <button category="controls" onclick="video.currentTime=0;timeUpdate()">⏮</button>
-          <button category="controls" onclick="video.currentTime=Math.max(0,video.currentTime-5);timeUpdate()">⬅️
-            5s</button>
-          <button category="controls" onclick="video.currentTime=Math.max(0,video.currentTime-1);timeUpdate()">⬅️
-            1s</button>
-          <button category="controls" onclick="video.paused?video.play():video.pause()">⏯</button>
-          <button category="controls"
-            onclick="video.currentTime=Math.min(video.duration,video.currentTime+1);timeUpdate()">⏩ 1s</button>
-          <button category="controls"
-            onclick="video.currentTime=Math.min(video.duration,video.currentTime+5);timeUpdate()">⏩ 5s</button>
-          <button category="controls" onclick="video.currentTime=video.duration;timeUpdate()">⏭</button>
-        </div>
-      </div> -->
       <div class="mdc-card mdc-card--outlined select-source">
         <div>
           <label class="mdc-text-field mdc-text-field--filled" id="videowidth">
@@ -307,7 +357,7 @@
             <span></span>
           </button>
         </div>
-        <div>
+        <div class="canvas-container">
           <canvas id="canvas" width="640" height="480"></canvas>
         </div>
         <div>
@@ -326,7 +376,7 @@
   </main>
 
   <!-- start the script ... within that declare variables as follows... -->
-  <script src="js/app.js?20210921"></script>
+  <script src="js/app.js?20211027"></script>
 
 </body>
 
