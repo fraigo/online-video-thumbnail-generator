@@ -41,32 +41,32 @@ video.addEventListener('loadedmetadata', function () {
 function oneMinVideoGo() {
   video.currentTime = 60;
   video.pause();
-  console.log(video.currentTime);
 }
 function fiveMinVideoGo() {
   video.currentTime = 300;
   video.pause();
-  console.log(video.currentTime);
 }
 function tenMinVideoGo() {
   video.currentTime = 600;
   video.pause();
-  console.log(video.currentTime);
 }
 // oneMinBtn.addEventListener('click', oneMinVideoGo);
 fiveMinBtn.addEventListener('click', fiveMinVideoGo);
-// tenMinBtn.addEventListener('click', tenMinVideoGo);
+tenMinBtn.addEventListener('click', tenMinVideoGo);
 
 
 function jampVideoTo() {
-  var allMinBtn = document.querySelector('.tenMin');
-  // console.log(allMinBtn);
-  // min = allMinBtn.outerText.split(" ");
-  console.log(parseInt(allMinBtn.outerText));
+  var allMinBtn = document.querySelectorAll('.snap_button');
+  console.log(allMinBtn)
+  for (let i = 0; i < allMinBtn.length; i++) {
+    var minValue = parseInt(allMinBtn[i].outerText);
+    console.log(minValue)
+  }
+
 
 }
 
-tenMinBtn.addEventListener('click', jampVideoTo);
+oneMinBtn.addEventListener('click', jampVideoTo);
 
 function resize() {
   ratio = video.videoWidth / video.videoHeight;
