@@ -50,21 +50,21 @@ function tenMinVideoGo() {
   video.currentTime = 600;
   video.pause();
 }
-// oneMinBtn.addEventListener('click', oneMinVideoGo);
+oneMinBtn.addEventListener('click', oneMinVideoGo);
 fiveMinBtn.addEventListener('click', fiveMinVideoGo);
 tenMinBtn.addEventListener('click', tenMinVideoGo);
 
 
-function jampVideoTo() {
-  var allMinBtn = document.querySelectorAll('.snap_button');
-  console.log(allMinBtn)
-  for (let i = 0; i < allMinBtn.length; i++) {
-    var minValue = parseInt(allMinBtn[i].outerText);
-    console.log(minValue)
-  }
+// function jampVideoTo() {
+//   var allMinBtn = document.querySelectorAll('.snap_button');
+//   console.log(allMinBtn)
+//   for (let i = 0; i < allMinBtn.length; i++) {
+//     var minValue = parseInt(allMinBtn[i].innerHTML);
+//     console.log(minValue)
+//   }
 
 
-}
+// }
 
 oneMinBtn.addEventListener('click', jampVideoTo);
 
