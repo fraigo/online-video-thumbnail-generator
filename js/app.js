@@ -43,36 +43,6 @@ video.addEventListener('loadedmetadata', function () {
   resize();
 }, false);
 
-function oneMinVideoGo() {
-  video.currentTime = 60;
-  video.pause();
-}
-function fiveMinVideoGo() {
-  video.currentTime = 300;
-  video.pause();
-}
-function tenMinVideoGo() {
-  video.currentTime = 600;
-  video.pause();
-}
-oneMinBtn.addEventListener('click', oneMinVideoGo);
-fiveMinBtn.addEventListener('click', fiveMinVideoGo);
-tenMinBtn.addEventListener('click', tenMinVideoGo);
-
-
-// function jampVideoTo() {
-//   var allMinBtn = document.querySelectorAll('.snap_button');
-//   console.log(allMinBtn)
-//   for (let i = 0; i < allMinBtn.length; i++) {
-//     var minValue = parseInt(allMinBtn[i].innerHTML);
-//     console.log(minValue)
-//   }
-
-
-// }
-
-oneMinBtn.addEventListener('click', jampVideoTo);
-
 function resize() {
   ratio = video.videoWidth / video.videoHeight;
   w = videow.value;
