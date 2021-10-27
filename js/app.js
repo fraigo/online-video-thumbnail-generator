@@ -9,6 +9,9 @@ var videoInfo = document.querySelector('#videoInfo');
 var snapSize = document.querySelector('#snapsize');
 var context = canvas.getContext('2d');
 var w, h, ratio;
+var oneMinBtn = document.querySelector('.oneMin');
+var fiveMinBtn = document.querySelector('.fiveMin');
+var tenMinBtn = document.querySelector('.tenMin');
 
 //add loadedmetadata which will helps to identify video attributes
 
@@ -34,6 +37,36 @@ video.addEventListener('loadedmetadata', function () {
   video.pause();
   resize();
 }, false);
+
+function oneMinVideoGo() {
+  video.currentTime = 60;
+  video.pause();
+}
+function fiveMinVideoGo() {
+  video.currentTime = 300;
+  video.pause();
+}
+function tenMinVideoGo() {
+  video.currentTime = 600;
+  video.pause();
+}
+oneMinBtn.addEventListener('click', oneMinVideoGo);
+fiveMinBtn.addEventListener('click', fiveMinVideoGo);
+tenMinBtn.addEventListener('click', tenMinVideoGo);
+
+
+// function jampVideoTo() {
+//   var allMinBtn = document.querySelectorAll('.snap_button');
+//   console.log(allMinBtn)
+//   for (let i = 0; i < allMinBtn.length; i++) {
+//     var minValue = parseInt(allMinBtn[i].innerHTML);
+//     console.log(minValue)
+//   }
+
+
+// }
+
+oneMinBtn.addEventListener('click', jampVideoTo);
 
 function resize() {
   ratio = video.videoWidth / video.videoHeight;
@@ -109,7 +142,7 @@ function loadVideoURL(url) {
 }
 
 function savePicture() {
-  var dataURL = canvas.toDataURL("image/png");
+  var dataURL = canvas.toDataURL();
   var link = document.getElementById("imagelink");
   link.style.display = '';
   link.href = dataURL;
@@ -117,8 +150,6 @@ function savePicture() {
   link.setAttribute("download", "video-capture-" + rnd + ".png");
   link.click();
 }
-
-
 
 window.addEventListener("load", function () {
   var buttons = document.querySelectorAll('button');
