@@ -53,9 +53,20 @@ function tenMinVideoGo() {
   video.pause();
   console.log(video.currentTime);
 }
-oneMinBtn.addEventListener('click', oneMinVideoGo);
+// oneMinBtn.addEventListener('click', oneMinVideoGo);
 fiveMinBtn.addEventListener('click', fiveMinVideoGo);
-tenMinBtn.addEventListener('click', tenMinVideoGo);
+// tenMinBtn.addEventListener('click', tenMinVideoGo);
+
+
+function jampVideoTo() {
+  var allMinBtn = document.querySelector('.tenMin');
+  // console.log(allMinBtn);
+  // min = allMinBtn.outerText.split(" ");
+  console.log(parseInt(allMinBtn.outerText));
+
+}
+
+tenMinBtn.addEventListener('click', jampVideoTo);
 
 function resize() {
   ratio = video.videoWidth / video.videoHeight;
