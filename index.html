@@ -7,202 +7,9 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Online Video Thumbnail Generator</title>
   <meta name="description" content="Online tool to create snapshots of videos (local file or online by URL)">
+  <link rel="stylesheet" href="css/style.css" >
   <style>
-    body {
-      padding: 0;
-      margin: 0;
-    }
 
-    main {
-      display: flex;
-    }
-
-    canvas {
-      border: 1px solid #ddd;
-      max-width: 45vw;
-      max-height: 90vh;
-      margin-bottom: 15px;
-    }
-
-    .mdc-top-app-bar__row {
-      height: 50px !important;
-    }
-
-    .mdc-top-app-bar--fixed-adjust {
-      padding-top: 50px !important;
-    }
-
-    video {
-      max-width: 45vw;
-      max-height: 90vh;
-      margin-bottom: 10px;
-    }
-
-    #videourl {
-      max-width: 82%;
-    }
-
-    #videoInfo {
-      background-color: #eee;
-      display: none;
-    }
-
-    main>div {
-      margin: 20px 12px;
-    }
-
-    .select-source {
-      padding: 12px;
-      flex-wrap: wrap;
-    }
-
-    .instructions {
-      padding: 12px;
-      flex-wrap: wrap;
-    }
-
-    .toolbar-menu {
-      color: #fff !important;
-      padding-right: 12px;
-    }
-
-    .video_data {
-      width: 50%;
-    }
-
-    .video_output {
-      display: flex;
-      flex: 1;
-    }
-
-    .video_output > .mdc-card{
-      width: 100%;
-    }
-
-    .instructions ul {
-      margin-bottom: -5px;
-    }
-
-    .mdc-touch-target-wrapper {
-      position: absolute;
-      top: 22px;
-      right: 12px;
-    }
-
-    .mdc-text-field--filled {
-      background-color: #fff !important;
-    }
-
-    .mdc-text-field--filled:active {
-      background-color: #fff !important;
-    }
-
-    .snap_photo_btn {
-      margin-bottom: 7px;
-      margin-left: 15px;
-    }
-
-    .buttons {
-      display: flex;
-    }
-
-    .buttons h4 {
-      padding-right: 15px;
-      font-family: Roboto;
-      font-weight: normal;
-      color: rgba(0, 0, 0, 0.87);
-    }
-
-    .space {
-      width: 20px;
-    }
-
-    .mdc-card{
-      font-family: Roboto, sans-serif;
-      padding: 8px;
-      margin: 4px 0;
-    }
-
-    .snap_button {
-      background: #6200ee;
-      border: 0;
-      border-radius: 4px;
-      padding: 0 15px 2px;
-      font-size: inherit;
-      color: #fff;
-      cursor: pointer;
-      box-shadow: 0px 5px 3px -3px rgba(0, 0, 0, 0.50);
-      height: 37px;
-      margin: 10px 0;
-    }
-
-    .snap_button:hover {
-      background: #8731ff;
-      transition: all 0.3s;
-    }
-
-    .snap_button:active {
-      background: #c49dff;
-    }
-
-    .canvas-container{
-      margin-top:16px;
-    }
-    #videoControls > div{
-      margin: 8px 0;
-    }
-    #videoControls button{
-      font-size: 2em;
-      border-radius: 5px;
-      background-color: #eee;
-      border: 1px solid #aaa;
-    }
-    #slider{
-      width: 100%;
-    }
-    #videoControls button > span{
-      font-size: 16px;
-    }
-
-    @media (max-width:1023px){
-      main{
-        flex-wrap: wrap;
-      }
-      .video_data{
-        width: 100%;
-      }
-      .video_output{
-        width: 100%;
-      }
-      video{
-        max-width: 90vw;
-      }
-      canvas{
-        max-width: 90vw;
-      }
-    }
-    @media (max-width:600px){
-      #videoControls button {
-        font-size: 20px;
-      }
-    }
-    @media (max-width:480px){
-      #snap{
-        width: 100px;
-      }
-      #videoControls > div{
-        display: flex;
-        justify-content: space-between;
-      }
-      #videoControls button {
-        font-size: 18px;
-        padding: 0 4px;
-      }
-      #videoControls button > span{
-        display: block;
-        text-align: center;
-      }
-    }
   </style>
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RKLKKLZFDQ"></script>
@@ -314,7 +121,7 @@
           </div>
         </div>
       </div>
-      <div class="mdc-card mdc-card--outlined select-source">
+      <div class="mdc-card mdc-card--outlined video-preview">
         <video id="video" controls width="640">
           <source src="blank.mp4" type="video/mp4">
         </video>
@@ -325,16 +132,18 @@
           <div>
               <input id="slider" oninput="goToTime(video,this.value)" onmouseover="this.title=this.value+'seg'" type="range" min="0" max="100" value="0" name="position">
           </div>
-          <div>
-            <button category="controls" onclick="goToTime(video,0)">⏮ <span>&nbsp;</span></button>
-            <button category="controls" onclick="goToTime(video,video.currentTime-60)">⏪ <span>1m</span></button>
-            <button category="controls" onclick="goToTime(video,video.currentTime-5)">⏪ <span>5s</span></button>
-            <button category="controls" onclick="goToTime(video,video.currentTime-1)">⏪ <span>1s</span></button>
-            <button category="controls" onclick="video.paused?video.play():video.pause()">⏯ <span>&nbsp;</span></button>
-            <button category="controls" onclick="goToTime(video,video.currentTime+1)">⏩ <span>1s</span></button>
-            <button category="controls" onclick="goToTime(video,video.currentTime+5)">⏩ <span>5s</span></button>
-            <button category="controls" onclick="goToTime(video,video.currentTime+60)">⏩ <span>1m</span></button>
-            <button category="controls" onclick="goToTime(video,video.duration)">⏭ <span>&nbsp;</span></button>  
+          <div class="button-container">
+            <button category="controls" onclick="goToTime(video,0)">⏮<br><span>&nbsp;</span></button>
+            <button category="controls" onclick="goToTime(video,video.currentTime-60)">⏪<br><span>-1m</span></button>
+            <button category="controls" onclick="goToTime(video,video.currentTime-5)">⏪<br><span>-5s</span></button>
+            <button category="controls" onclick="goToTime(video,video.currentTime-1)">⏪<br><span>-1s</span></button>
+            <button category="controls" onclick="goToTime(video,video.currentTime-1/25)">⏩<br><span>-1fr</span></button>
+            <button category="controls" onclick="video.paused?video.play():video.pause()">⏯<br><span>&nbsp;</span></button>
+            <button category="controls" onclick="goToTime(video,video.currentTime+1/25)">⏩<br><span>+1fr</span></button>
+            <button category="controls" onclick="goToTime(video,video.currentTime+1)">⏩<br><span>+1s</span></button>
+            <button category="controls" onclick="goToTime(video,video.currentTime+5)">⏩<br><span>+5s</span></button>
+            <button category="controls" onclick="goToTime(video,video.currentTime+60)">⏩<br><span>+1m</span></button>
+            <button category="controls" onclick="goToTime(video,video.duration)">⏭<br><span>&nbsp;</span></button>  
           </div>
         </div>
       </div>
@@ -357,19 +166,20 @@
             <span></span>
           </button>
         </div>
+        <a href="" id="imagelink" style="display:none">Image link</a>
         <div class="canvas-container">
           <canvas id="canvas" width="640" height="480"></canvas>
+          <div>
+            <button id="save" class="mdc-button mdc-button--raised save_btn" onclick="savePicture()" disabled>
+              <span class="mdc-button__ripple"></span>
+              <span class="mdc-button__touch"></span>
+              <span class="mdc-button__label save_txt">Save Image</span>
+              <span></span>
+            </button>
+            <span id="snapsize"></span>
+          </div>
         </div>
-        <div>
-          <button id="save" class="mdc-button mdc-button--raised save_btn" onclick="savePicture()" disabled>
-            <span class="mdc-button__ripple"></span>
-            <span class="mdc-button__touch"></span>
-            <span class="mdc-button__label save_txt">Save Image</span>
-            <span></span>
-          </button>
-          <span id="snapsize"></span>
-          <a href="" id="imagelink" style="display:none">Image link</a>
-        </div>
+
       </div>
     </div>
 

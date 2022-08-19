@@ -124,6 +124,9 @@ function savePicture() {
   var rnd = Math.round((Math.random() * 10000));
   link.setAttribute("download", "video-capture-" + rnd + ".png");
   link.click();
+  setTimeout(function(){
+    link.style.display = 'none';
+  },100)
 }
 
 window.addEventListener("load", function () {

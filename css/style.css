@@ -1,0 +1,208 @@
+body {
+    padding: 0;
+    margin: 0;
+  }
+
+  main {
+    display: flex;
+  }
+
+  canvas {
+    border: 1px solid #ddd;
+    max-width: 45vw;
+    max-height: 90vh;
+    margin-bottom: 15px;
+  }
+
+  .mdc-top-app-bar__row {
+    height: 50px !important;
+  }
+
+  .mdc-top-app-bar--fixed-adjust {
+    padding-top: 50px !important;
+  }
+
+  video {
+    max-width: 45vw;
+    max-height: 90vh;
+    margin-bottom: 10px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  #videourl {
+    max-width: 82%;
+  }
+
+  #videoInfo {
+    background-color: #eee;
+    display: none;
+  }
+
+  main>div {
+    margin: 20px 12px;
+  }
+
+  .select-source {
+    padding: 12px;
+    flex-wrap: wrap;
+  }
+ .video-preview{
+    text-align: center;
+ }
+  .instructions {
+    padding: 12px;
+    flex-wrap: wrap;
+  }
+
+  .toolbar-menu {
+    color: #fff !important;
+    padding-right: 12px;
+  }
+
+  .video_data {
+    width: 50%;
+  }
+
+  .video_output {
+    display: flex;
+    flex: 1;
+  }
+
+  .video_output > .mdc-card{
+    width: 100%;
+  }
+
+  .instructions ul {
+    margin-bottom: -5px;
+  }
+
+  .mdc-touch-target-wrapper {
+    position: absolute;
+    top: 22px;
+    right: 12px;
+  }
+
+  .mdc-text-field--filled {
+    background-color: #fff !important;
+  }
+
+  .mdc-text-field--filled:active {
+    background-color: #fff !important;
+  }
+
+  .snap_photo_btn {
+    margin-bottom: 7px;
+    margin-left: 15px;
+  }
+
+  .buttons {
+    display: flex;
+  }
+
+  .buttons h4 {
+    padding-right: 15px;
+    font-family: Roboto;
+    font-weight: normal;
+    color: rgba(0, 0, 0, 0.87);
+  }
+
+  .space {
+    width: 20px;
+  }
+
+  .mdc-card{
+    font-family: Roboto, sans-serif;
+    padding: 8px;
+    margin: 4px 0;
+  }
+
+  .snap_button {
+    background: #6200ee;
+    border: 0;
+    border-radius: 4px;
+    padding: 0 15px 2px;
+    font-size: inherit;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0px 5px 3px -3px rgba(0, 0, 0, 0.50);
+    height: 37px;
+    margin: 10px 0;
+  }
+
+  .snap_button:hover {
+    background: #8731ff;
+    transition: all 0.3s;
+  }
+
+  .snap_button:active {
+    background: #c49dff;
+  }
+
+  .canvas-container{
+    margin-top:16px;
+    text-align: center;
+  }
+  #videoControls > div{
+    margin: 8px 0;
+  }
+  #videoControls .button-container{
+    text-align: center;
+  }
+  #videoControls button{
+    font-size: 2em;
+    border-radius: 5px;
+    background-color: #eee;
+    border: 1px solid #aaa;
+  }
+  #slider{
+    width: 100%;
+  }
+  #videoControls button > span{
+    font-size: 16px;
+  }
+  @media (max-width:1166px){
+    #videoControls button {
+        font-size: 24px;
+    }
+  }
+  
+  @media (max-width:1023px){
+    main{
+      flex-wrap: wrap;
+    }
+    .video_data{
+      width: 100%;
+    }
+    .video_output{
+      width: 100%;
+    }
+    video{
+      max-width: 90vw;
+    }
+    canvas{
+      max-width: 90vw;
+    }
+  }
+  @media (max-width:600px){
+    #videoControls button {
+      font-size: 20px;
+    }
+  }
+  @media (max-width:480px){
+    #snap{
+      width: 100px;
+    }
+    #videoControls > div{
+      display: flex;
+      justify-content: space-between;
+    }
+    #videoControls button {
+      font-size: 18px;
+      padding: 0 4px;
+    }
+    #videoControls button > span{
+      display: block;
+      text-align: center;
+    }
+  }
