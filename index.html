@@ -166,11 +166,10 @@
             <span></span>
           </button>
         </div>
-        <a href="" id="imagelink" style="display:none">Image link</a>
         <div class="canvas-container">
           <canvas id="canvas" width="640" height="480"></canvas>
           <div>
-            <button id="save" class="mdc-button mdc-button--raised save_btn" onclick="savePicture()" disabled>
+            <button id="save" class="mdc-button mdc-button--raised save_btn" onclick="savePicture(this)" disabled>
               <span class="mdc-button__ripple"></span>
               <span class="mdc-button__touch"></span>
               <span class="mdc-button__label save_txt">Save Image</span>
@@ -179,14 +178,14 @@
             <span id="snapsize"></span>
           </div>
         </div>
-
+        <a href="" id="imagelink" style="display:none">Image link</a>
       </div>
     </div>
 
   </main>
 
   <!-- start the script ... within that declare variables as follows... -->
-  <script src="js/app.js?20211027"></script>
+  <script src="js/app.js?20230605"></script>
 
 </body>
 
