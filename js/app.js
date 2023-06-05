@@ -116,15 +116,18 @@ function loadVideoURL(url) {
   save.disabled = false;
 }
 
-function savePicture() {
+function savePicture(btn) {
+  btn.disabled = true
   var dataURL = canvas.toDataURL();
   var link = document.getElementById("imagelink");
   link.style.display = '';
+  link.style.opacity = 0
   link.href = dataURL;
   var rnd = Math.round((Math.random() * 10000));
   link.setAttribute("download", "video-capture-" + rnd + ".png");
   link.click();
   setTimeout(function(){
+    btn.disabled = false
     link.style.display = 'none';
   },100)
 }
