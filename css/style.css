@@ -206,3 +206,14 @@ body {
       text-align: center;
     }
   }
+
+.output {
+  object-fit: contain;
+  width: 100%;
+  height: auto;
+  border: 2px solid transparent;
+}
+
+.output.selected {
+  border-color: #6200ee;
+}

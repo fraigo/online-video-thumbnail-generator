@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Online Video Thumbnail Generator</title>
   <meta name="description" content="Online tool to create snapshots of videos (local file or online by URL)">
-  <link rel="stylesheet" href="css/style.css" >
+  <link rel="stylesheet" href="css/style.css">
   <style>
 
   </style>
@@ -61,10 +61,10 @@
     <div class="video_data">
       <div class="mdc-card mdc-card--outlined">
         <div>
-          <div class="mdc-form-field" >
+          <div class="mdc-form-field">
             <div class="mdc-radio">
-              <input class="mdc-radio__native-control" type="radio" onclick="showInput('select-url', this)" id="video_url"
-                name="video_source">
+              <input class="mdc-radio__native-control" type="radio" onclick="showInput('select-url', this)"
+                id="video_url" name="video_source" value="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4">
               <div class="mdc-radio__background">
                 <div class="mdc-radio__outer-circle"></div>
                 <div class="mdc-radio__inner-circle"></div>
@@ -73,11 +73,11 @@
             </div>
             <label for="video_url">Video from URL</label>
           </div>
-  
-          <div class="mdc-form-field" >
+
+          <div class="mdc-form-field">
             <div class="mdc-radio">
-              <input class="mdc-radio__native-control" type="radio" onclick="showInput('select-file', this)" id="video_file"
-                checked name="video_source">
+              <input class="mdc-radio__native-control" type="radio" onclick="showInput('select-file', this)"
+                id="video_file" checked name="video_source">
               <div class="mdc-radio__background">
                 <div class="mdc-radio__outer-circle"></div>
                 <div class="mdc-radio__inner-circle"></div>
@@ -130,7 +130,8 @@
         <div>Select the frame to capture using video controls.</div>
         <div id="videoControls" class="video-controls" style="display:none">
           <div>
-              <input id="slider" oninput="goToTime(video,this.value)" onmouseover="this.title=this.value+'seg'" type="range" min="0" max="100" value="0" name="position">
+            <input id="slider" oninput="goToTime(video,this.value)" onmouseover="this.title=this.value+'seg'"
+              type="range" min="0" max="100" value="0" name="position">
           </div>
           <div class="button-container">
             <button category="controls" onclick="goToTime(video,0)">⏮<br><span>&nbsp;</span></button>
@@ -138,12 +139,13 @@
             <button category="controls" onclick="goToTime(video,video.currentTime-5)">⏪<br><span>-5s</span></button>
             <button category="controls" onclick="goToTime(video,video.currentTime-1)">⏪<br><span>-1s</span></button>
             <button category="controls" onclick="goToTime(video,video.currentTime-1/25)">⏪<br><span>-1fr</span></button>
-            <button category="controls" onclick="video.paused?video.play():video.pause()">⏯<br><span>&nbsp;</span></button>
+            <button category="controls"
+              onclick="video.paused?video.play():video.pause()">⏯<br><span>&nbsp;</span></button>
             <button category="controls" onclick="goToTime(video,video.currentTime+1/25)">⏩<br><span>+1fr</span></button>
             <button category="controls" onclick="goToTime(video,video.currentTime+1)">⏩<br><span>+1s</span></button>
             <button category="controls" onclick="goToTime(video,video.currentTime+5)">⏩<br><span>+5s</span></button>
             <button category="controls" onclick="goToTime(video,video.currentTime+60)">⏩<br><span>+1m</span></button>
-            <button category="controls" onclick="goToTime(video,video.duration)">⏭<br><span>&nbsp;</span></button>  
+            <button category="controls" onclick="goToTime(video,video.duration)">⏭<br><span>&nbsp;</span></button>
           </div>
         </div>
       </div>
@@ -152,28 +154,73 @@
     <div class="video_output">
       <div class="mdc-card mdc-card--outlined select-source">
         <div>
-          <label class="mdc-text-field mdc-text-field--filled" id="videowidth">
+          <label class="mdc-text-field mdc-text-field--filled" id="videowidth" style="margin-bottom: 1rem;">
             <span class="mdc-text-field__ripple"></span>
             <span class="mdc-floating-label" id="size-label">Image width</span>
             <input id="videow" type=number size="5" onchange="resize()" value="640" class="mdc-text-field__input"
               type="text" placeholder="" aria-labelledby="size-label" readonly>
             <span class="mdc-line-ripple"></span>
           </label>
-          <button id="snap" class="mdc-button mdc-button--raised snap_photo_btn" onclick="snapPicture()" disabled>
-            <span class="mdc-button__ripple"></span>
-            <span class="mdc-button__touch"></span>
-            <span class="mdc-button__label">Snap photo</span>
-            <span></span>
-          </button>
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <button id="snap" class="mdc-button mdc-button--raised" onclick="snapPicture()" disabled>
+              <span class="mdc-button__ripple"></span>
+              <span class="mdc-button__touch"></span>
+              <span class="mdc-button__label">Snap photo</span>
+            </button>
+            <button  class="snap2 mdc-button mdc-button--raised" onclick="autoSnapPictureAfterPercent(0.1)" disabled>
+              <span class="mdc-button__ripple"></span>
+              <span class="mdc-button__touch"></span>
+              <span class="mdc-button__label">Auto snap each 10%</span>
+            </button>
+            <button  class="snap2 mdc-button mdc-button--raised" onclick="autoSnapPictureAfterPercent(0.05)" disabled>
+              <span class="mdc-button__ripple"></span>
+              <span class="mdc-button__touch"></span>
+              <span class="mdc-button__label">Auto snap each 5%</span>
+            </button>
+            <button  class="snap2 mdc-button mdc-button--raised" onclick="autoSnapPictureAfterPercent(0.02)" disabled>
+              <span class="mdc-button__ripple"></span>
+              <span class="mdc-button__touch"></span>
+              <span class="mdc-button__label">Auto snap each 2%</span>
+            </button>
+            <button  class="snap2 mdc-button mdc-button--raised" onclick="autoSnapPictureAfterMin(1)" disabled>
+              <span class="mdc-button__ripple"></span>
+              <span class="mdc-button__touch"></span>
+              <span class="mdc-button__label">Auto snap each 1m</span>
+            </button>
+            <button  class="snap2 mdc-button mdc-button--raised" onclick="autoSnapPictureAfterMin(0.5)" disabled>
+              <span class="mdc-button__ripple"></span>
+              <span class="mdc-button__touch"></span>
+              <span class="mdc-button__label">Auto snap each 30s</span>
+            </button>
+            <button  class="snap2 mdc-button mdc-button--raised" onclick="autoSnapPictureAfterMin(0.1)" disabled>
+              <span class="mdc-button__ripple"></span>
+              <span class="mdc-button__touch"></span>
+              <span class="mdc-button__label">Auto snap each 10s</span>
+            </button>
+            <button  class="snap2 mdc-button mdc-button--raised" onclick="autoSnapPictureAfterMin(5/60)" disabled>
+              <span class="mdc-button__ripple"></span>
+              <span class="mdc-button__touch"></span>
+              <span class="mdc-button__label">Auto snap each 5s</span>
+            </button>
+            <button  class="snap2 mdc-button mdc-button--raised" onclick="autoSnapPictureAfterMin(1/60)" disabled>
+              <span class="mdc-button__ripple"></span>
+              <span class="mdc-button__touch"></span>
+              <span class="mdc-button__label">Auto snap each 1s</span>
+            </button>
+          </div>
         </div>
         <div class="canvas-container">
-          <canvas id="canvas" width="640" height="480"></canvas>
+          <canvas id="canvas" width="640" height="480" style="display: none"></canvas>
+          <img id="preview" src="blank.png"
+            style="margin-bottom: 1rem; width: 100%; height: auto; max-height: 320px; object-fit: contain;">
+          <div id="outputs"
+            style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; margin-bottom: 1rem;">
+          </div>
           <div>
             <button id="save" class="mdc-button mdc-button--raised save_btn" onclick="savePicture(this)" disabled>
               <span class="mdc-button__ripple"></span>
               <span class="mdc-button__touch"></span>
               <span class="mdc-button__label save_txt">Save Image</span>
-              <span></span>
             </button>
             <span id="snapsize"></span>
           </div>
