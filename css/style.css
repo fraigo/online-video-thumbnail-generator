@@ -31,7 +31,7 @@ body {
   }
 
   #videourl {
-    max-width: 82%;
+    margin-right: 130px;
   }
 
   #videoInfo {
@@ -45,7 +45,7 @@ body {
 
   .select-source {
     padding: 12px;
-    flex-wrap: wrap;
+
   }
  .video-preview{
     text-align: center;
@@ -65,8 +65,12 @@ body {
   }
 
   .video_output {
+    position: sticky;
     display: flex;
     flex: 1;
+    top: 60px;
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
   }
 
   .video_output > .mdc-card{
@@ -142,6 +146,11 @@ body {
   .canvas-container{
     margin-top:16px;
     text-align: center;
+    position: relative;
+    padding-bottom: 40px;
+    box-sizing: border-box;
+    max-height: calc(100vh - 240px);
+    overflow-y: auto;
   }
   #videoControls > div{
     margin: 8px 0;
@@ -183,6 +192,9 @@ body {
     canvas{
       max-width: 90vw;
     }
+    .video_output {
+      max-height: 100%;
+    }
   }
   @media (max-width:600px){
     #videoControls button {
@@ -209,9 +221,15 @@ body {
 
 .output {
   object-fit: contain;
-  width: 100%;
+  width: 17%;
   height: auto;
   border: 2px solid transparent;
+}
+
+#outputs{
+  display: flex; 
+  gap: 1%; 
+  flex-wrap: wrap;
 }
 
 .output.selected {

@@ -64,7 +64,7 @@
           <div class="mdc-form-field">
             <div class="mdc-radio">
               <input class="mdc-radio__native-control" type="radio" onclick="showInput('select-url', this)"
-                id="video_url" name="video_source" value="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4">
+                id="video_url" name="video_source" >
               <div class="mdc-radio__background">
                 <div class="mdc-radio__outer-circle"></div>
                 <div class="mdc-radio__inner-circle"></div>
@@ -122,7 +122,7 @@
         </div>
       </div>
       <div class="mdc-card mdc-card--outlined video-preview">
-        <video id="video" controls width="640">
+        <video id="video" controls width="640" crossorigin="anonymous">
           <source src="blank.mp4" type="video/mp4">
         </video>
         <div id="videoInfo" class="mdc-card">
@@ -167,63 +167,37 @@
               <span class="mdc-button__touch"></span>
               <span class="mdc-button__label">Snap photo</span>
             </button>
-            <button  class="snap2 mdc-button mdc-button--raised" onclick="autoSnapPictureAfterPercent(0.1)" disabled>
+            <button id="snap2" class="snap2 mdc-button mdc-button--raised" onclick="autoSnapPictureAfterSelection()" disabled>
               <span class="mdc-button__ripple"></span>
               <span class="mdc-button__touch"></span>
-              <span class="mdc-button__label">Auto snap each 10%</span>
+              <span class="mdc-button__label">Auto snap each</span>
             </button>
-            <button  class="snap2 mdc-button mdc-button--raised" onclick="autoSnapPictureAfterPercent(0.05)" disabled>
-              <span class="mdc-button__ripple"></span>
-              <span class="mdc-button__touch"></span>
-              <span class="mdc-button__label">Auto snap each 5%</span>
-            </button>
-            <button  class="snap2 mdc-button mdc-button--raised" onclick="autoSnapPictureAfterPercent(0.02)" disabled>
-              <span class="mdc-button__ripple"></span>
-              <span class="mdc-button__touch"></span>
-              <span class="mdc-button__label">Auto snap each 2%</span>
-            </button>
-            <button  class="snap2 mdc-button mdc-button--raised" onclick="autoSnapPictureAfterMin(1)" disabled>
-              <span class="mdc-button__ripple"></span>
-              <span class="mdc-button__touch"></span>
-              <span class="mdc-button__label">Auto snap each 1m</span>
-            </button>
-            <button  class="snap2 mdc-button mdc-button--raised" onclick="autoSnapPictureAfterMin(0.5)" disabled>
-              <span class="mdc-button__ripple"></span>
-              <span class="mdc-button__touch"></span>
-              <span class="mdc-button__label">Auto snap each 30s</span>
-            </button>
-            <button  class="snap2 mdc-button mdc-button--raised" onclick="autoSnapPictureAfterMin(0.1)" disabled>
-              <span class="mdc-button__ripple"></span>
-              <span class="mdc-button__touch"></span>
-              <span class="mdc-button__label">Auto snap each 10s</span>
-            </button>
-            <button  class="snap2 mdc-button mdc-button--raised" onclick="autoSnapPictureAfterMin(5/60)" disabled>
-              <span class="mdc-button__ripple"></span>
-              <span class="mdc-button__touch"></span>
-              <span class="mdc-button__label">Auto snap each 5s</span>
-            </button>
-            <button  class="snap2 mdc-button mdc-button--raised" onclick="autoSnapPictureAfterMin(1/60)" disabled>
-              <span class="mdc-button__ripple"></span>
-              <span class="mdc-button__touch"></span>
-              <span class="mdc-button__label">Auto snap each 1s</span>
-            </button>
+            <select id="snap_each">
+              <option value="2%">2%</option>
+              <option value="5%">5%</option>
+              <option value="10%">10%</option>
+              <option value="0.0166666m">1 sec</option>
+              <option value="0.0833333m">5 sec</option>
+              <option value="0.166666m">10 sec</option>
+              <option value="0.5m">30 sec</option>
+              <option value="1m">1 minute</option>
+            </select>
           </div>
         </div>
         <div class="canvas-container">
           <canvas id="canvas" width="640" height="480" style="display: none"></canvas>
           <img id="preview" src="blank.png"
-            style="margin-bottom: 1rem; width: 100%; height: auto; max-height: 320px; object-fit: contain;">
-          <div id="outputs"
-            style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; margin-bottom: 1rem;">
+            style="display: none; margin-bottom: 1rem; width: 100%; height: auto; max-height: 320px; object-fit: contain;">
+          <div id="outputs">
           </div>
-          <div>
-            <button id="save" class="mdc-button mdc-button--raised save_btn" onclick="savePicture(this)" disabled>
-              <span class="mdc-button__ripple"></span>
-              <span class="mdc-button__touch"></span>
-              <span class="mdc-button__label save_txt">Save Image</span>
-            </button>
-            <span id="snapsize"></span>
-          </div>
+        </div>
+        <div>
+          <button id="save" class="mdc-button mdc-button--raised save_btn" onclick="savePicture(this)" disabled>
+            <span class="mdc-button__ripple"></span>
+            <span class="mdc-button__touch"></span>
+            <span class="mdc-button__label save_txt">Save Image</span>
+          </button>
+          <span id="snapsize"></span>
         </div>
         <a href="" id="imagelink" style="display:none">Image link</a>
       </div>

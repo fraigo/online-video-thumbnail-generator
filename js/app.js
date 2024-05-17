@@ -4,12 +4,14 @@ var file = document.querySelector("#videofile");
 var videoControls = document.querySelector("#videoControls");
 var videow = document.querySelector("#videow");
 var snap = document.querySelector("#snap");
+var snap2 = document.querySelector("#snap2");
 var save = document.querySelector("#save");
 var videoInfo = document.querySelector("#videoInfo");
 var snapSize = document.querySelector("#snapsize");
 var context = canvas.getContext("2d");
 var slider = document.querySelector("#slider");
 var w, h, ratio;
+var snapProc = null;
 //add loadedmetadata which will helps to identify video attributes
 
 function timeUpdate() {
@@ -24,6 +26,7 @@ function timeUpdate() {
 }
 
 function goToTime(video, time) {
+  console.log('goToTime',time)
   video.currentTime = Math.min(video.duration, Math.max(0, time));
   timeUpdate();
 }
@@ -58,14 +61,30 @@ function resize() {
 function snapPicture() {
   context.fillRect(0, 0, w, h);
   context.drawImage(video, 0, 0, w, h);
+  var time = video.currentTime
 
   const container = document.querySelector("#outputs");
   const img = document.createElement("img");
   img.src = canvas.toDataURL();
   img.className = "output";
   img.addEventListener("click", () => selectImage(img));
+  img.title=time.toFixed(2)+'seg'
+  img.onclick=function(){ goToTime(video,time) }
   container.appendChild(img);
   snapSize.innerHTML = w + "x" + h;
+  selectImage(img)
+}
+function autoSnapPictureAfterSelection(){
+  var sel = document.querySelector('#snap_each')
+  var value = 0
+  if (sel.value.indexOf('%')>0){
+    value = sel.value.replace('%','')*1.0/100
+    autoSnapPictureAfterPercent(value)
+  }
+  if (sel.value.indexOf('m')>0){
+    value = sel.value.replace('m','')*1.0
+    autoSnapPictureAfterMin(value)
+  }
 }
 
 function autoSnapPictureAfterPercent(percentage) {
@@ -74,22 +93,22 @@ function autoSnapPictureAfterPercent(percentage) {
     alert("Please load a video first");
     return;
   }
+  clearInterval(snapProc);
+  clearSnaps()
 
-  const container = document.querySelector("#outputs");
-  container.innerHTML = "";
-
-  var interval = percentage * video.duration;
+  var duration = video.duration
+  var interval = percentage * duration;
   var time = 0;
 
   // Loop through the video without delay and take a snapshot every 10% of the video
-  var intervalID = setInterval(function () {
+  snapProc = setInterval(function () {
     goToTime(video, time);
-    snapPicture();
+    setTimeout(snapPicture,400)
     time += interval;
-    if (time >= video.duration) {
-      clearInterval(intervalID);
+    if (time >= duration) {
+      clearInterval(snapProc);
     }
-  }, 200);
+  }, 500);
 }
 
 function autoSnapPictureAfterMin(minutes) {
@@ -98,22 +117,29 @@ function autoSnapPictureAfterMin(minutes) {
     alert("Please load a video first");
     return;
   }
+  clearInterval(snapProc);
+  clearSnaps();
 
-  const container = document.querySelector("#outputs");
-  container.innerHTML = "";
-
+  var duration = video.duration
   var interval = 60 * minutes;
   var time = 0;
 
   // Loop through the video without delay and take a snapshot every 1 minute
-  var intervalID = setInterval(function () {
+  snapProc = setInterval(function () {
     goToTime(video, time);
-    snapPicture();
+    setTimeout(snapPicture,400)
     time += interval;
-    if (time >= video.duration) {
-      clearInterval(intervalID);
+    if (time >= duration) {
+      clearInterval(snapProc);
     }
-  }, 200);
+  }, 500);
+}
+
+function clearSnaps(){
+  const container = document.querySelector("#outputs");
+  container.innerHTML = "";
+  save.disabled = true;
+
 }
 
 function selectImage(img) {
@@ -131,6 +157,10 @@ function selectImage(img) {
   // Preview the selected image in the image with id "preview"
   var preview = document.querySelector("#preview");
   preview.src = img.src;
+  preview.style.display = '';
+  preview.title=img.title
+  save.disabled = false;
+
 }
 
 function selectVideo() {
@@ -165,13 +195,7 @@ function loadVideoFile() {
     video.src = URL.createObjectURL(fileInput);
     videow.removeAttribute("readonly");
     snap.disabled = false;
-    save.disabled = false;
-    // Enable all buttons contains class "snap2"
-    var snap2 = document.querySelectorAll(".snap2");
-    for (let index = 0; index < snap2.length; index++) {
-      const doc = snap2[index];
-      doc.disabled = false;
-    }
+    snap2.disabled = false;
     videoControls.style.display = "";
   }
 }
@@ -195,13 +219,8 @@ function loadVideoURL(url) {
   video.src = url;
   videow.removeAttribute("readonly");
   snap.disabled = false;
-  save.disabled = false;
-  // Disable all buttons contains class "snap2"
-  var snap2 = document.querySelectorAll(".snap2");
-  for (let index = 0; index < snap2.length; index++) {
-    const doc = snap2[index];
-    doc.disabled = true;
-  }
+  snap2.disabled = false;
+  videoControls.style.display = "";
 }
 
 function savePicture(btn) {
@@ -228,7 +247,7 @@ function savePicture(btn) {
     link.style.opacity = 0;
     link.href = dataURL;
     var rnd = Math.round(Math.random() * 10000);
-    link.setAttribute("download", "video-capture-" + rnd + ".png");
+    link.setAttribute("download", "video-capture-" + selected.title+ "-" + rnd + ".png");
     link.click();
     setTimeout(function () {
       link.style.display = "none";
