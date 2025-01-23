@@ -323,4 +323,14 @@ window.addEventListener("load", function () {
       gtag("event", category + "-" + id, {});
     });
   }
+  var buttons = document.querySelectorAll("a");
+  for (let index = 0; index < buttons.length; index++) {
+    var element = buttons[index];
+    element.addEventListener("click", function () {
+      var name = this.innerText.trim();
+      var category = "link";
+      var id = name.toLowerCase().replace(" ", "_");
+      gtag("event", category + "-" + id, {});
+    });
+  }
 });
