@@ -122,11 +122,11 @@
         </div>
       </div>
       <div class="mdc-card mdc-card--outlined video-preview">
+        <div id="videoInfo" class="mdc-card">
+        </div>
         <video id="video" controls width="640" crossorigin="anonymous">
           <source src="blank.mp4" type="video/mp4">
         </video>
-        <div id="videoInfo" class="mdc-card">
-        </div>
         <div>Select the frame to capture using video controls.</div>
         <div id="videoControls" class="video-controls" style="display:none">
           <div>
@@ -134,18 +134,43 @@
               type="range" min="0" max="100" value="0" name="position">
           </div>
           <div class="button-container">
-            <button category="controls" onclick="goToTime(video,0)">⏮<br><span>&nbsp;</span></button>
-            <button category="controls" onclick="goToTime(video,video.currentTime-60)">⏪<br><span>-1m</span></button>
-            <button category="controls" onclick="goToTime(video,video.currentTime-5)">⏪<br><span>-5s</span></button>
-            <button category="controls" onclick="goToTime(video,video.currentTime-1)">⏪<br><span>-1s</span></button>
-            <button category="controls" onclick="goToTime(video,video.currentTime-1/25)">⏪<br><span>-1fr</span></button>
+            <button category="controls" onclick="goToTime(video,0)">
+                <span class="material-icons play-controls">skip_previous</span>
+              <br><span>&nbsp;</span></button>
+            <button category="controls" onclick="goToTime(video,video.currentTime-60)">
+              <span class="material-icons play-controls">fast_rewind</span>
+              <br><span>-1m</span></button>
+            <button category="controls" onclick="goToTime(video,video.currentTime-5)">
+              <span class="material-icons play-controls">fast_rewind</span>
+              <br><span>-5s</span></button>
+            <button category="controls" onclick="goToTime(video,video.currentTime-1)">
+              <span class="material-icons play-controls">fast_rewind</span>
+              <br><span>-1s</span></button>
+            <button category="controls" onclick="goToTime(video,video.currentTime-1/25)">
+              <span class="material-icons play-controls">fast_rewind</span>
+              <br><span>-1fr</span></button>
             <button category="controls"
-              onclick="video.paused?video.play():video.pause()">⏯<br><span>&nbsp;</span></button>
-            <button category="controls" onclick="goToTime(video,video.currentTime+1/25)">⏩<br><span>+1fr</span></button>
-            <button category="controls" onclick="goToTime(video,video.currentTime+1)">⏩<br><span>+1s</span></button>
-            <button category="controls" onclick="goToTime(video,video.currentTime+5)">⏩<br><span>+5s</span></button>
-            <button category="controls" onclick="goToTime(video,video.currentTime+60)">⏩<br><span>+1m</span></button>
-            <button category="controls" onclick="goToTime(video,video.duration)">⏭<br><span>&nbsp;</span></button>
+              onclick="video.paused?video.play():video.pause()">
+              <div>
+                <span class="material-icons play-controls play-control">play_arrow</span>
+                <span class="material-icons play-controls pause-control" style="display: none" >pause</span>
+              </div>
+              <br><span>&nbsp;</span></button>
+            <button category="controls" onclick="goToTime(video,video.currentTime+1/25)">
+              <span class="material-icons play-controls">fast_forward</span>
+              <br><span>+1fr</span></button>
+            <button category="controls" onclick="goToTime(video,video.currentTime+1)">
+              <span class="material-icons play-controls">fast_forward</span>
+              <br><span>+1s</span></button>
+            <button category="controls" onclick="goToTime(video,video.currentTime+5)">
+              <span class="material-icons play-controls">fast_forward</span>
+              <br><span>+5s</span></button>
+            <button category="controls" onclick="goToTime(video,video.currentTime+60)">
+              <span class="material-icons play-controls">fast_forward</span>
+              <br><span>+1m</span></button>
+            <button category="controls" onclick="goToTime(video,video.duration)">
+              <span class="material-icons play-controls">skip_next</span>
+              <br><span>&nbsp;</span></button>
           </div>
         </div>
       </div>
@@ -154,34 +179,39 @@
     <div class="video_output">
       <div class="mdc-card mdc-card--outlined select-source">
         <div>
-          <label class="mdc-text-field mdc-text-field--filled" id="videowidth" style="margin-bottom: 1rem;">
-            <span class="mdc-text-field__ripple"></span>
-            <span class="mdc-floating-label" id="size-label">Image width</span>
-            <input id="videow" type=number size="5" onchange="resize()" value="640" class="mdc-text-field__input"
-              type="text" placeholder="" aria-labelledby="size-label" readonly>
-            <span class="mdc-line-ripple"></span>
-          </label>
-          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+          <div style="display: flex; align-items: center; flex-wrap: wrap;">
+            <label class="mdc-text-field mdc-text-field--filled" id="videowidth" >
+              <span class="mdc-text-field__ripple"></span>
+              <span class="mdc-floating-label" id="size-label">Snap width</span>
+              <input id="videow" type=number size="5" onchange="resize()" value="640" class="mdc-text-field__input"
+                type="text" placeholder="" aria-labelledby="size-label" readonly>
+              <span class="mdc-line-ripple"></span>
+            </label>
+  
             <button id="snap" class="mdc-button mdc-button--raised" onclick="snapPicture()" disabled>
               <span class="mdc-button__ripple"></span>
               <span class="mdc-button__touch"></span>
               <span class="mdc-button__label">Snap photo</span>
             </button>
-            <button id="snap2" class="snap2 mdc-button mdc-button--raised" onclick="autoSnapPictureAfterSelection()" disabled>
-              <span class="mdc-button__ripple"></span>
-              <span class="mdc-button__touch"></span>
-              <span class="mdc-button__label">Auto snap each</span>
-            </button>
-            <select id="snap_each">
-              <option value="2%">2%</option>
-              <option value="5%">5%</option>
-              <option value="10%">10%</option>
-              <option value="0.0166666m">1 sec</option>
-              <option value="0.0833333m">5 sec</option>
-              <option value="0.166666m">10 sec</option>
-              <option value="0.5m">30 sec</option>
-              <option value="1m">1 minute</option>
-            </select>
+            <div style="display: flex;">
+              <button id="snap2" class="snap2 mdc-button mdc-button--raised" onclick="autoSnapPictureAfterSelection()" disabled>
+                <span class="mdc-button__ripple"></span>
+                <span class="mdc-button__touch"></span>
+                <span class="mdc-button__label">Auto snap each</span>
+              </button>
+              <select id="snap_each">
+                <option value="2%">2% (50 img)</option>
+                <option value="4%" selected>4% (25 img)</option>
+                <option value="5%">5% (20 img)</option>
+                <option value="6.25%">6.25% (16 img)</option>
+                <option value="10%">10% (10 img)</option>
+                <option value="0.0166666m">1 sec</option>
+                <option value="0.0833333m">5 sec</option>
+                <option value="0.166666m">10 sec</option>
+                <option value="0.5m">30 sec</option>
+                <option value="1m">1 minute</option>
+              </select>
+            </div>
           </div>
         </div>
         <div class="canvas-container">
@@ -197,7 +227,18 @@
             <span class="mdc-button__touch"></span>
             <span class="mdc-button__label save_txt">Save Image</span>
           </button>
+          <button id="saveall" class="mdc-button mdc-button--raised save_btn" onclick="zipAllImages(this)" disabled>
+            <span class="mdc-button__ripple"></span>
+            <span class="mdc-button__touch"></span>
+            <span class="mdc-button__label save_txt">Save All</span>
+          </button>
           <span id="snapsize"></span>
+
+          <button id="clear" class="mdc-button mdc-button--raised" onclick="clearInterval(snapProc);clearSnaps()" style="float:right" disabled>
+            <span class="mdc-button__ripple"></span>
+            <span class="mdc-button__touch"></span>
+            <span class="mdc-button__label save_txt">Clear</span>
+          </button>
         </div>
         <a href="" id="imagelink" style="display:none">Image link</a>
       </div>
@@ -206,6 +247,8 @@
   </main>
 
   <!-- start the script ... within that declare variables as follows... -->
+  <script src="js/jszip.min.js"></script> 
+  <script src="js/FileSaver.min.js"></script>
   <script src="js/app.js?20240517"></script>
 
 </body>

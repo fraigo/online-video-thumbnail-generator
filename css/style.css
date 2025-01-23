@@ -34,6 +34,16 @@ body {
     margin-right: 130px;
   }
 
+  #videowidth{
+    margin-bottom: 1rem;
+    max-width: 100px;
+    width: 22%;
+    padding: 0 4px;
+  }
+  #videowidth .mdc-floating-label{
+    left: 4px;
+  }
+
   #videoInfo {
     background-color: #eee;
     display: none;
@@ -79,6 +89,10 @@ body {
 
   .instructions ul {
     margin-bottom: -5px;
+  }
+
+  .play-controls{
+    font-size: 28px !important;
   }
 
   .mdc-touch-target-wrapper {
@@ -163,6 +177,8 @@ body {
     border-radius: 5px;
     background-color: #eee;
     border: 1px solid #aaa;
+    display: inline-flex;
+    flex-direction: column;
   }
   #slider{
     width: 100%;
@@ -170,6 +186,67 @@ body {
   #videoControls button > span{
     font-size: 16px;
   }
+
+  #snap{
+    margin: 0 2%;
+  }
+  
+  #snap2{
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  #snap_each{
+    border: 0px;
+    background-color: #c49dff;
+    border-radius: 0 .5rem .5rem 0;
+    height: 36px;
+    width: 94px;
+  }
+
+  .output-container{
+    flex: 0 1 17%;
+    position: relative;
+  }
+  
+  .output {
+    object-fit: contain;
+    height: auto;
+    width: 100%;
+    border: 2px solid transparent;
+  }
+  .output-container label{
+    font-size: 0.75em;
+    background: #fff;
+    padding: 2px 3px;
+    border-radius: 3px;
+    font-size: 0.75em;
+    position: absolute;
+    right: 3px;
+    bottom: 6px;
+  }
+  .output-remove{
+    position: absolute;
+    top: 4px;
+    right: 3px;
+    background: #800000;
+    color: #fff;
+    padding: 2px 5px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.75em;
+  }
+  
+  #outputs{
+    display: flex; 
+    gap: 1%; 
+    flex-wrap: wrap;
+  }
+  
+  .output.selected {
+    border-color: #6200ee;
+  }
+  
+  
   @media (max-width:1166px){
     #videoControls button {
         font-size: 24px;
@@ -203,35 +280,40 @@ body {
   }
   @media (max-width:480px){
     #snap{
-      width: 100px;
+      width: 80px;
+      height: 54px;
+    }
+    #snap2{
+      width: 85px;
+      height: 54px;
+    }
+    #snap_each{
+      height: 54px;
+      width: 64px;
     }
     #videoControls > div{
       display: flex;
       justify-content: space-between;
     }
     #videoControls button {
-      font-size: 18px;
-      padding: 0 4px;
+      font-size: 3vw ;
+      padding: 4px 4px;
     }
     #videoControls button > span{
       display: block;
       text-align: center;
+      font-size: 3vw;
     }
+    .play-controls{
+      font-size: 5vw !important;
+    }
+    .output-container{
+      flex: 0 1 31%;
+    }
+    #outputs{
+      gap: 3px; 
+    }
+    .output-container label{
+      font-size: 3vw;
+    }  
   }
-
-.output {
-  object-fit: contain;
-  width: 17%;
-  height: auto;
-  border: 2px solid transparent;
-}
-
-#outputs{
-  display: flex; 
-  gap: 1%; 
-  flex-wrap: wrap;
-}
-
-.output.selected {
-  border-color: #6200ee;
-}

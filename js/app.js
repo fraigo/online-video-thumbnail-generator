@@ -6,6 +6,8 @@ var videow = document.querySelector("#videow");
 var snap = document.querySelector("#snap");
 var snap2 = document.querySelector("#snap2");
 var save = document.querySelector("#save");
+var saveall = document.querySelector("#saveall");
+var clear = document.querySelector("#clear");
 var videoInfo = document.querySelector("#videoInfo");
 var snapSize = document.querySelector("#snapsize");
 var context = canvas.getContext("2d");
@@ -32,6 +34,17 @@ function goToTime(video, time) {
 }
 
 video.addEventListener("timeupdate", timeUpdate);
+setInterval( function () {
+  console.log(video.paused)
+  if (!video) return
+  if (video.paused){
+    document.querySelector(".play-control").style.display = "block";
+    document.querySelector(".pause-control").style.display = "none";
+  } else {
+    document.querySelector(".play-control").style.display = "none";
+    document.querySelector(".pause-control").style.display = "block";
+  }
+},1000)
 
 video.addEventListener(
   "loadedmetadata",
@@ -68,10 +81,32 @@ function snapPicture() {
   img.src = canvas.toDataURL();
   img.className = "output";
   img.addEventListener("click", () => selectImage(img));
-  img.title=time.toFixed(2)+'seg'
+  img.title="t"+("000" + time.toFixed(2)).slice(-7)+'seg'
   img.onclick=function(){ goToTime(video,time) }
-  container.appendChild(img);
-  snapSize.innerHTML = w + "x" + h;
+  
+  var cont = document.createElement("div");
+  cont.className = "output-container";
+  cont.style.display = "inline-block";
+  cont.appendChild(img);
+  var label=document.createElement("label");
+  label.innerHTML=w+"x"+h
+  cont.appendChild(label);
+
+  var close = document.createElement("a");
+  close.className = "output-remove";
+  close.innerHTML = "x";
+  close.addEventListener("click", function () {
+    container.removeChild(cont);
+    if (container.children.length == 0) {
+      save.disabled = true;
+      saveall.disabled = true;
+      clear.disabled = true
+    }
+  })
+  cont.appendChild(close);
+  
+  container.appendChild(cont);
+  img.setAttribute("size",w + "x" + h);
   selectImage(img)
 }
 function autoSnapPictureAfterSelection(){
@@ -85,6 +120,22 @@ function autoSnapPictureAfterSelection(){
     value = sel.value.replace('m','')*1.0
     autoSnapPictureAfterMin(value)
   }
+}
+
+function zipAllImages(){
+  var zip = new JSZip();
+  const container = document.querySelector("#outputs");
+  var images = container.querySelectorAll("img");
+  var imgFolder = zip.folder("images");
+  images.forEach(function(img){
+    var imgData = img.src.replace(/^data:image\/(png|jpg);base64,/, "");
+    imgFolder.file(img.title+".png", imgData, {base64: true});
+  })
+  zip.generateAsync({type:"blob"})
+  .then(function(content) {
+      console.log('save',content)
+      saveAs(content, "images.zip");
+  }); 
 }
 
 function autoSnapPictureAfterPercent(percentage) {
@@ -139,7 +190,8 @@ function clearSnaps(){
   const container = document.querySelector("#outputs");
   container.innerHTML = "";
   save.disabled = true;
-
+  saveall.disabled = true;
+  clear.disabled = true;
 }
 
 function selectImage(img) {
@@ -160,7 +212,8 @@ function selectImage(img) {
   preview.style.display = '';
   preview.title=img.title
   save.disabled = false;
-
+  saveall.disabled = false;
+  clear.disabled = false;
 }
 
 function selectVideo() {
