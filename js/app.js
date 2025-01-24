@@ -89,7 +89,7 @@ function snapPicture() {
   cont.style.display = "inline-block";
   cont.appendChild(img);
   var label=document.createElement("label");
-  label.innerHTML=w+"x"+h
+  label.innerHTML=(time.toFixed(2))+'s '+w+"x"+h
   cont.appendChild(label);
 
   var close = document.createElement("a");
@@ -196,10 +196,10 @@ function clearSnaps(){
 
 function selectImage(img) {
   // Find parent and remove selected class from all children except the selected one
-  var parent = img.parentElement;
-  var children = parent.children;
-  for (let index = 0; index < children.length; index++) {
-    const element = children[index];
+  var parent = img.parentElement.parentElement;
+  var images = parent.querySelectorAll('.output-container > img');
+  for (let index = 0; index < images.length; index++) {
+    const element = images[index];
     if (element != img) {
       element.classList.remove("selected");
     }
