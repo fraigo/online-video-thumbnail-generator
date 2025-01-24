@@ -223,6 +223,7 @@ body {
     position: absolute;
     right: 3px;
     bottom: 6px;
+    max-width: 82%;
   }
   .output-remove{
     position: absolute;
