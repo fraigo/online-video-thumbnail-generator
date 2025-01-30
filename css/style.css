@@ -34,14 +34,18 @@ body {
     margin-right: 130px;
   }
 
-  #videowidth{
+  #videowidth, #snapdelay{
     margin-bottom: 1rem;
-    max-width: 100px;
+    max-width: 84px;
     width: 22%;
     padding: 0 4px;
   }
-  #videowidth .mdc-floating-label{
+  #videowidth .mdc-floating-label,
+  #snapdelay .mdc-floating-label{
     left: 4px;
+  }
+  #snapdelay{
+    margin-left: 8px;
   }
 
   #videoInfo {
@@ -189,11 +193,13 @@ body {
 
   #snap{
     margin: 0 2%;
+    width: 88px;
   }
   
   #snap2{
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+    width: 130px;
   }
   #snap_each{
     border: 0px;

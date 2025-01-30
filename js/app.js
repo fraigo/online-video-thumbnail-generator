@@ -3,6 +3,7 @@ var canvas = document.querySelector("#canvas");
 var file = document.querySelector("#videofile");
 var videoControls = document.querySelector("#videoControls");
 var videow = document.querySelector("#videow");
+var snapd = document.querySelector("#snapd");
 var snap = document.querySelector("#snap");
 var snap2 = document.querySelector("#snap2");
 var save = document.querySelector("#save");
@@ -149,17 +150,17 @@ function autoSnapPictureAfterPercent(percentage) {
 
   var duration = video.duration
   var interval = percentage * duration;
-  var time = 0;
+  var time = 0.1;
 
   // Loop through the video without delay and take a snapshot every 10% of the video
   snapProc = setInterval(function () {
     goToTime(video, time);
-    setTimeout(snapPicture,400)
+    setTimeout(snapPicture,snapd.value * 1 || 400)
     time += interval;
     if (time >= duration) {
       clearInterval(snapProc);
     }
-  }, 500);
+  }, (snapd.value * 1 || 400) + 100);
 }
 
 function autoSnapPictureAfterMin(minutes) {
@@ -173,17 +174,17 @@ function autoSnapPictureAfterMin(minutes) {
 
   var duration = video.duration
   var interval = 60 * minutes;
-  var time = 0;
+  var time = 0.1;
 
   // Loop through the video without delay and take a snapshot every 1 minute
   snapProc = setInterval(function () {
     goToTime(video, time);
-    setTimeout(snapPicture,400)
+    setTimeout(snapPicture,snapd.value * 1 || 400)
     time += interval;
     if (time >= duration) {
       clearInterval(snapProc);
     }
-  }, 500);
+  }, (snapd.value * 1 || 400) + 100);
 }
 
 function clearSnaps(){
